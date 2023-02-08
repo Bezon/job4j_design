@@ -51,7 +51,7 @@ class SimpleConvertTest {
         assertThat(array).hasSize(5)
                 .doesNotContainKey("six")
                 .containsKeys("first", "second", "three")
-                .containsValues(1,4,3)
+                .containsValues(1, 4, 3)
                 .containsEntry("second", 1);
     }
 }
