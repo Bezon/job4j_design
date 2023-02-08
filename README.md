@@ -4,15 +4,15 @@
 
 Этот проект для курса Junior с сайта job4j.ru.
 
-Данный файл будет дополняться в процессе прохождения курса.
+Проект является парсером вакансий популярного сайта. 
 
-Возможности данного проекта: -
+На этапе данного проетка происходит изучение тем:
+- Узнаешь, что внутри каждой из коллекций и почему одна коллекция работает быстрее, чем другая. 
+- Познакомишься с анализом алгоритмов. 
+- Узнаешь, как работают самые важные алгоритмы. 
+- Познакомишься с концепциями ввода-вывода. 
+- Научишься использовать базы данных и хранить ценную информацию в них. 
+- После этого уровня ты сможешь претендовать на позиции Junior Java разработчик.
 
 Дата начала проекта: 08.02.2023.
 Дата окончания проекта: -
-
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
-Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus.
-Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.
-Aenean nec lorem. In porttitor. Donec laoreet nonummy augue. 
-Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.
