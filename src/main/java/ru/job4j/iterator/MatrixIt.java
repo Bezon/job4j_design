@@ -39,8 +39,7 @@ public class MatrixIt implements Iterator<Integer> {
         int rsl = data[row][column];
         if (data[row].length > 1 && column < data[row].length - 1){
             column++;
-        }
-        if (column == 0){
+        } else {
             row++;
         }
         return rsl;
