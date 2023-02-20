@@ -1,9 +1,6 @@
 package ru.job4j.collection;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 
 public class SimpleArrayList<T> implements SimpleList<T> {
 
@@ -14,6 +11,9 @@ public class SimpleArrayList<T> implements SimpleList<T> {
     private int modCount;
 
     public SimpleArrayList(int capacity) {
+        if (capacity == 0) {
+            capacity = 10;
+        }
         this.container = (T[]) new Object[capacity];
     }
 
@@ -22,23 +22,40 @@ public class SimpleArrayList<T> implements SimpleList<T> {
         if (size == container.length) {
             container = Arrays.copyOf(container, container.length * 2);
         }
+        ArrayList<String> ar = new ArrayList<>();
         container[size] = value;
         size++;
+        modCount++;
     }
 
     @Override
     public T set(int index, T newValue) {
-        return container[0];
+        Objects.checkIndex(index, size);
+        T rsl = container[index];
+        container[index] = newValue;
+        return rsl;
     }
 
     @Override
     public T remove(int index) {
-        return container[0];
+        Objects.checkIndex(index, container.length);
+        T rsl = container[index];
+        System.arraycopy(
+                container,
+                index + 1,
+                container,
+                index,
+                container.length - index - 1
+        );
+        container[container.length - 1] = null;
+        modCount++;
+        return rsl;
     }
 
     @Override
     public T get(int index) {
-        return container[0];
+        Objects.checkIndex(index, size);
+        return container[index];
     }
 
     @Override
@@ -49,15 +66,26 @@ public class SimpleArrayList<T> implements SimpleList<T> {
     @Override
     public Iterator<T> iterator() {
         return new Iterator<T>() {
+            int expectedModCount = modCount;
+            int index = 0;
 
             @Override
             public boolean hasNext() {
-                return false;
+                if (expectedModCount != modCount) {
+                    throw new ConcurrentModificationException();
+                }
+                while (index < container.length && container[index] == null) {
+                    index++;
+                }
+                return index < size;
             }
 
             @Override
             public T next() {
-                return container[0];
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                return container[index++];
             }
 
         };
