@@ -16,7 +16,6 @@ public class SimpleArrayList<T> implements SimpleList<T> {
         }
         this.container = (T[]) new Object[capacity];
     }
-
     @Override
     public void add(T value) {
         if (size == container.length) {
@@ -27,7 +26,6 @@ public class SimpleArrayList<T> implements SimpleList<T> {
         size++;
         modCount++;
     }
-
     @Override
     public T set(int index, T newValue) {
         Objects.checkIndex(index, size);
@@ -35,10 +33,9 @@ public class SimpleArrayList<T> implements SimpleList<T> {
         container[index] = newValue;
         return rsl;
     }
-
     @Override
     public T remove(int index) {
-        Objects.checkIndex(index, container.length);
+        Objects.checkIndex(index, size);
         T rsl = container[index];
         System.arraycopy(
                 container,
@@ -49,15 +46,14 @@ public class SimpleArrayList<T> implements SimpleList<T> {
         );
         container[container.length - 1] = null;
         modCount++;
+        size--;
         return rsl;
     }
-
     @Override
     public T get(int index) {
         Objects.checkIndex(index, size);
         return container[index];
     }
-
     @Override
     public int size() {
         return size;
@@ -68,7 +64,6 @@ public class SimpleArrayList<T> implements SimpleList<T> {
         return new Iterator<T>() {
             int expectedModCount = modCount;
             int index = 0;
-
             @Override
             public boolean hasNext() {
                 if (expectedModCount != modCount) {
@@ -79,7 +74,6 @@ public class SimpleArrayList<T> implements SimpleList<T> {
                 }
                 return index < size;
             }
-
             @Override
             public T next() {
                 if (!hasNext()) {
@@ -87,7 +81,6 @@ public class SimpleArrayList<T> implements SimpleList<T> {
                 }
                 return container[index++];
             }
-
         };
     }
 }
