@@ -49,7 +49,7 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
                     throw new ConcurrentModificationException();
                 }
                 boolean rsl;
-                if (l == null && head != null){
+                if (l == null && head != null) {
                     rsl = true;
                 } else if (head == null) {
                     rsl = false;
@@ -64,7 +64,7 @@ public class SimpleLinkedList<E> implements LinkedList<E> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                if (l == null){
+                if (l == null) {
                     l = head;
                 } else {
                     l = l.next;
