@@ -35,8 +35,8 @@ public class ForwardLinked<T> implements Iterable<T> {
     }
 
     public T deleteFirst() {
-        if (head != null){
-            if (head.next != null){
+        if (head != null) {
+            if (head.next != null) {
                 Node<T> l = head.next;
                 head.next = null;
                 head = l;
@@ -53,7 +53,7 @@ public class ForwardLinked<T> implements Iterable<T> {
     @Override
     public Iterator<T> iterator() {
 
-         return new Iterator<T>() {
+        return new Iterator<T>() {
             int expectedModCount = modCount;
             Node<T> l = head;
 
