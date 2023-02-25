@@ -9,7 +9,6 @@ import java.util.NoSuchElementException;
 class SimpleStackTest {
     private SimpleStack<Integer> stack;
 
-    /*
     @BeforeEach
     void init() {
         stack = new SimpleStack<>();
@@ -38,5 +37,4 @@ class SimpleStackTest {
         assertThatThrownBy(stack::pop)
                 .isInstanceOf(NoSuchElementException.class);
     }
-    */
 }
