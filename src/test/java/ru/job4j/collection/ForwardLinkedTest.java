@@ -76,6 +76,15 @@ class ForwardLinkedTest {
     }
 
     @Test
+    void whenDeleteFirstFromListThenException() {
+        ForwardLinked<Integer> list = new ForwardLinked<>();
+        assertThat(list).isEmpty();
+        list.add(3);
+        assertThatThrownBy(list::deleteFirst)
+                .isInstanceOf(NoSuchElementException.class);
+    }
+
+    @Test
     void whenAddIterHasNextTrue() {
         Iterator<Integer> it = list.iterator();
         assertThat(it.hasNext()).isTrue();
