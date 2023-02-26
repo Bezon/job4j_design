@@ -4,8 +4,8 @@ public class SimpleQueue<T> {
     private final SimpleStack<T> in = new SimpleStack<>();
     private final SimpleStack<T> out = new SimpleStack<>();
 
-    int inSize;
-    int outSize;
+    private int inSize;
+    private int outSize;
 
     public T poll() {
         if (outSize == 0) {
