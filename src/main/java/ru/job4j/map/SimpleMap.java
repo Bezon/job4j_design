@@ -1,6 +1,10 @@
 package ru.job4j.map;
 
+import ru.job4j.collection.SimpleLinkedList;
+
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class SimpleMap<K, V> implements Map<K, V> {
 
@@ -16,9 +20,11 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public boolean put(K key, V value) {
+        int index = indexFor(hash((int)key));
+        table[index] = new MapEntry<>(key,value);
         count++;
         modCount++;
-        return false;
+        return true;
     }
 
     private int hash(int hashCode) {
@@ -35,7 +41,8 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public V get(K key) {
-        return null;
+        int index = indexFor(hash((int)key));
+        return table[index].value;
     }
 
     @Override
@@ -47,7 +54,27 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public Iterator<K> iterator() {
-        return null;
+        return new Iterator<K>() {
+            int expectedModCount = modCount;
+
+            int index = 0;
+
+            @Override
+            public boolean hasNext() {
+                if (expectedModCount != modCount) {
+                    throw new ConcurrentModificationException();
+                }
+                return index < count;
+            }
+
+            @Override
+            public K next() {
+                if (!hasNext()) {
+                    throw new NoSuchElementException();
+                }
+                return table[index++].key;
+            }
+        };
     }
 
     private static class MapEntry<K, V> {
