@@ -5,6 +5,7 @@ import ru.job4j.collection.SimpleLinkedList;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 public class SimpleMap<K, V> implements Map<K, V> {
 
@@ -42,7 +43,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
     @Override
     public V get(K key) {
         int index = indexFor(hash((int)key));
-        return table[index].value;
+        return table[index] == null ? null : table[index].value;
     }
 
     @Override
@@ -64,7 +65,10 @@ public class SimpleMap<K, V> implements Map<K, V> {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                return index < count;
+                while (index < capacity && table[index] == null){
+                    index++;
+                }
+                return index < capacity;
             }
 
             @Override
