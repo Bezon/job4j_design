@@ -2,10 +2,7 @@ package ru.job4j.map;
 
 import ru.job4j.collection.SimpleLinkedList;
 
-import java.util.ConcurrentModificationException;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import java.util.Objects;
+import java.util.*;
 
 public class SimpleMap<K, V> implements Map<K, V> {
 
@@ -21,11 +18,22 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public boolean put(K key, V value) {
-        int index = indexFor(hash((int)key));
-        table[index] = new MapEntry<>(key,value);
-        count++;
-        modCount++;
-        return true;
+        boolean rsl = true;
+        int index = 0;
+        if (key != null) {
+            index = indexFor(hash(key.hashCode()));
+        }
+        if (table[index] != null) {
+            rsl = false;
+        } else {
+            if (count / capacity >= LOAD_FACTOR) {
+                expand();
+            }
+            table[index] = new MapEntry<>(key, value);
+            count++;
+            modCount++;
+        }
+        return rsl;
     }
 
     private int hash(int hashCode) {
@@ -33,24 +41,37 @@ public class SimpleMap<K, V> implements Map<K, V> {
     }
 
     private int indexFor(int hash) {
-        return hash & (table.length - 1);
+        return hash & (capacity - 1);
     }
 
     private void expand() {
-
+        capacity = capacity * 2;
+        table = Arrays.copyOf(table, capacity);
     }
 
     @Override
     public V get(K key) {
-        int index = indexFor(hash((int)key));
-        return table[index] == null ? null : table[index].value;
+        int index = 0;
+        MapEntry rsl;
+        if (key != null) {
+            index = indexFor(hash(key.hashCode()));
+            rsl = table[index];
+        } else {
+            rsl = null;
+        }
+        return rsl == null ? null : table[index].value;
     }
 
     @Override
     public boolean remove(K key) {
+        int index = 0;
+        if (key != null) {
+            index = indexFor(hash(key.hashCode()));
+        }
+        table[index] = null;
         count--;
         modCount++;
-        return false;
+        return true;
     }
 
     @Override
@@ -65,7 +86,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
                 if (expectedModCount != modCount) {
                     throw new ConcurrentModificationException();
                 }
-                while (index < capacity && table[index] == null){
+                while (index < capacity && table[index] == null) {
                     index++;
                 }
                 return index < capacity;
