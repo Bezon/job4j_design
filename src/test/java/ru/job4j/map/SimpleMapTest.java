@@ -145,9 +145,23 @@ class SimpleMapTest {
     }
 
     @Test
+    void whenCheckGetZeroAndZero() {
+        SimpleMap<Integer, String> map = new SimpleMap<>();
+        assertThat(map.put(null, "0000")).isTrue();
+        assertThat(map.get(null)).isEqualTo("0000");
+    }
+
+    @Test
     void whenCheckGetNullAndZero() {
         SimpleMap<Integer, String> map = new SimpleMap<>();
         assertThat(map.put(0, "0")).isTrue();
         assertThat(map.get(null)).isNull();
+    }
+
+    @Test
+    void whenCheckGetNullAndNull() {
+        SimpleMap<Integer, String> map = new SimpleMap<>();
+        assertThat(map.put(0, "0")).isTrue();
+        assertThat(map.get(0)).isEqualTo("0");
     }
 }
