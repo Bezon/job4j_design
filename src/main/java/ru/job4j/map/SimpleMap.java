@@ -59,8 +59,8 @@ public class SimpleMap<K, V> implements Map<K, V> {
         V rsl = null;
         if (table[index] != null) {
             int indexEntry = indexFor(hash(Objects.hashCode(table[index].key)));
-            if (index == indexEntry &&
-                    ((key != null && key.equals(table[index].key)) || key == null && table[index].key == null)) {
+            if (index == indexEntry
+                    && ((key != null && key.equals(table[index].key)) || key == null && table[index].key == null)) {
                 rsl = table[index].value;
             }
         }
