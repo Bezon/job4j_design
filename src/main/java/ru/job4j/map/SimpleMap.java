@@ -18,12 +18,11 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     @Override
     public boolean put(K key, V value) {
-        boolean rsl = true;
-        int index = indexFor(hash(Objects.hashCode(key)));
-        float load = count / capacity;
-        if (load >= LOAD_FACTOR) {
+        if ((float) count / capacity >= LOAD_FACTOR) {
             expand();
         }
+        boolean rsl = true;
+        int index = indexFor(hash(Objects.hashCode(key)));
         if (table[index] != null) {
             rsl = false;
         } else {
@@ -44,19 +43,25 @@ public class SimpleMap<K, V> implements Map<K, V> {
 
     private void expand() {
         capacity = capacity * 2;
-        table = Arrays.copyOf(table, capacity);
+        MapEntry<K, V>[] newtable = new MapEntry[capacity];
+        for (MapEntry<K, V> kvMapEntry : table) {
+            if (kvMapEntry != null) {
+                int index = indexFor(hash(Objects.hashCode(kvMapEntry.key)));
+                newtable[index] = kvMapEntry;
+            }
+        }
+        table = newtable;
     }
 
     @Override
     public V get(K key) {
         int index = indexFor(hash(Objects.hashCode(key)));
         V rsl = null;
-        if (table[index] != null){
+        if (table[index] != null) {
             int indexEntry = indexFor(hash(Objects.hashCode(table[index].key)));
-            if (key != null){
-                if (index == indexEntry && key.equals(table[index].key)) {
-                    rsl = table[index].value;
-                }
+            if (index == indexEntry &&
+                    ((key != null && key.equals(table[index].key)) || key == null && table[index].key == null)) {
+                rsl = table[index].value;
             }
         }
         return rsl;
@@ -66,7 +71,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
     public boolean remove(K key) {
         int index = indexFor(hash(Objects.hashCode(key)));
         boolean rsl = true;
-        if (table[index] == null){
+        if (table[index] == null) {
             rsl = false;
         } else {
             table[index] = null;
