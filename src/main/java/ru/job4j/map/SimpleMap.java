@@ -47,7 +47,7 @@ public class SimpleMap<K, V> implements Map<K, V> {
         MapEntry<K, V>[] newtable = new MapEntry[capacity];
         for (MapEntry<K, V> kvMapEntry : table) {
             if (kvMapEntry != null) {
-                int index = indexFor(hash(Objects.hashCode(kvMapEntry.key)));
+                int index = index(kvMapEntry.key);
                 newtable[index] = kvMapEntry;
             }
         }
@@ -59,9 +59,10 @@ public class SimpleMap<K, V> implements Map<K, V> {
         int index = index(key);
         V rsl = null;
         if (table[index] != null) {
-            int indexEntry = index(table[index].key);
-            if (key == table[index].key || (key != null && key.equals(table[index].key))) {
-                rsl = table[index].value;
+            if (Objects.hashCode(key) == Objects.hashCode(table[index].key)) {
+                if (Objects.equals(key, table[index].key)) {
+                    rsl = table[index].value;
+                }
             }
         }
         return rsl;
@@ -73,8 +74,10 @@ public class SimpleMap<K, V> implements Map<K, V> {
         boolean rsl = true;
         if (table[index] == null) {
             rsl = false;
-        } else if (key == table[index].key || (key != null && key.equals(table[index].key))) {
-            table[index] = null;
+        } else if (Objects.hashCode(key) == Objects.hashCode(table[index].key)) {
+            if (Objects.equals(key, table[index].key)) {
+                table[index] = null;
+            }
         }
         count--;
         modCount++;
