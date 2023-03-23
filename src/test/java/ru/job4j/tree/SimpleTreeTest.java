@@ -33,4 +33,11 @@ public class SimpleTreeTest {
         tree.add(5, 6);
         assertThat(tree.add(2, 6)).isFalse();
     }
+
+    @Test
+    void whenParentNotExistThenFalse() {
+        Tree<Integer> tree = new SimpleTree<>(1);
+        tree.add(1, 2);
+        assertThat(tree.add(3, 4)).isFalse();
+    }
 }
