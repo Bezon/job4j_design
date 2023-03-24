@@ -1,12 +1,17 @@
 package ru.job4j.tree;
 
 import java.util.*;
+import java.util.function.Predicate;
 
 public class SimpleTree<E> implements Tree<E> {
     private final Node<E> root;
 
     public SimpleTree(final E root) {
         this.root = new Node<>(root);
+    }
+
+    public boolean isBinary() {
+        return false;
     }
 
     @Override
@@ -18,6 +23,11 @@ public class SimpleTree<E> implements Tree<E> {
             rsl = true;
         }
         return false;
+    }
+
+    private Optional<Node<E>> findByPredicate(Predicate<Node<E>> condition) {
+        Optional<Node<E>> rsl = Optional.empty();
+        return rsl;
     }
 
     @Override
